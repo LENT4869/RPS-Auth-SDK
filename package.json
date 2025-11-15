@@ -1,0 +1,23 @@
+{
+  "name": "rps-auth-sdk",
+  "version": "1.0.0",
+  "description": "Local-first Random Prefix Security (RPS) authentication core.",
+  "main": "dist/rps_core.min.js",
+  "scripts": {
+    "build": "terser src/rps_core.js -o dist/rps_core.min.js -c -m"
+  },
+  "keywords": [
+    "security",
+    "auth",
+    "rps",
+    "mnemonic",
+    "local-first",
+    "web3",
+    "crypto"
+  ],
+  "author": "LENT",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

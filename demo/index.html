@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RPS Auth SDK Demo</title>
+  <script src="../dist/rps_core.min.js"></script>
+</head>
+<body>
+  <h1>RPS Auth Demo</h1>
+
+  <button id="gen">Generate Mnemonic</button>
+  <pre id="mnemonic"></pre>
+
+  <button id="challenge">Get Challenge</button>
+  <pre id="indices"></pre>
+
+  <h3>Enter Answers:</h3>
+  <div id="inputs"></div>
+  <button id="verify">Verify</button>
+  <pre id="result"></pre>
+
+<script>
+  let mnemonic = "";
+  let indices = [];
+
+  document.getElementById("gen").onclick = () => {
+    mnemonic = RpsCore.generateRandomMnemonic();
+    const words = mnemonic.split(" ");
+    const numbered = words.map((w, idx) => `${idx + 1}. ${w}`).join("  ");
+    document.getElementById("mnemonic").textContent = numbered;
+  };
+
+  document.getElementById("challenge").onclick = () => {
+    indices = RpsCore.getRandomIndices(3, 12);
+    document.getElementById("indices").textContent =
+    "Please enter the prefixes of words: " +
+    indices.map(i => i + 1).join(", ");
+
+    
+    const container = document.getElementById("inputs");
+    container.innerHTML = "";
+    indices.forEach(i => {
+      const input = document.createElement("input");
+      input.placeholder = `Enter  3 letters of word #${i + 1}`;
+      container.appendChild(input);
+      container.appendChild(document.createElement("br"));
+    });
+  };
+
+  document.getElementById("verify").onclick = () => {
+    const inputEls = document.querySelectorAll("#inputs input");
+    const inputs = [...inputEls].map(e => e.value);
+
+    const ok = RpsCore.verifyRps({
+      mnemonic,
+      indices,
+      inputs,
+      prefixLength: 3
+    });
+
+    document.getElementById("result").textContent = ok ? "✔ OK!" : "✘ Failed";
+  };
+</script>
+</body>
+</html>
