@@ -1,6 +1,6 @@
 {
   "name": "rps-auth-sdk",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "Local-first Random Prefix Security (RPS) authentication core.",
   "main": "dist/rps_core.min.js",
   "scripts": {
