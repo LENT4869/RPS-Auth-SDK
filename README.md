@@ -1,8 +1,5 @@
 # RPS Auth SDK
 
-[![npm version](https://img.shields.io/npm/v/rps-auth-sdk.svg)](https://www.npmjs.com/package/rps-auth-sdk)
-[![npm downloads](https://img.shields.io/npm/dm/rps-auth-sdk.svg)](https://www.npmjs.com/package/rps-auth-sdk)
-
 A lightweight, local-first authentication SDK based on Random Prefix Security (RPS) — a verification mechanism that asks for partial prefixes of mnemonic-like tokens, preventing full credential exposure and dramatically reducing phishing & key leakage risks.
 
 No backend required. No sensitive data stored remotely.
@@ -130,21 +127,25 @@ Default salt: "quori-default"
 
 🛡️ Security Model
 
-RPS Auth 使用「部分前綴驗證」而非完整金鑰驗證，
-因此即使攻擊者：
+RPS Auth uses partial prefix verification instead of full key verification.
+This means that even if an attacker:
 
-竊取表單輸入
+captures form inputs
 
-竊取傳輸封包
+intercepts network traffic
 
-看到挑戰 index
+sees the challenged indices
 
-他也無法獲得完整助記詞，只能看到例如：
+they still cannot obtain the full mnemonic.
+
+For example, even if they see:
 
 hat, jun, ban
 
 
-不可能倒推出完整 RPS（含雜訊），極大提升安全性。
+these are only 3-letter prefixes, not the full RPS words (which include random noise).
+
+Because the system always challenges only partial prefixes from random positions, it is practically impossible to reconstruct the full RPS phrase (including noise), greatly increasing overall security.
 
 📂 Project Structure
 rps-auth-sdk/
@@ -160,6 +161,25 @@ rps-auth-sdk/
 │
 ├── LICENSE
 └── README.md
+
+## 🌈 Official RPS UI Pack
+
+If you don’t want to design the UI from scratch, there are official, glass-styled UI components built on top of `rps-auth-sdk`:
+
+- 🌐 **Web UI** – a standalone `<rps-verify>` style widget (HTML + JS)  
+- ⚛ **React UI** – `<RpsVerifyReact />` component with `onSuccess` / `onFail`  
+- 🌿 **Vue UI** – `<RpsVerifyVue />` SFC emitting `success` / `fail`  
+
+All of them:
+
+- Use the same Random Prefix Security (RPS) flow  
+- Run fully on the client  
+- Are styled with a modern glassmorphism card  
+
+👉 Web UI: https://dumbell6.gumroad.com/l/waiqtv 
+👉 React UI: https://dumbell6.gumroad.com/l/veftc  
+👉 Vue UI: https://dumbell6.gumroad.com/l/tlsfq  
+👉 **Full UI Bundle** (Web + React + Vue): https://dumbell6.gumroad.com/l/jyaxf
 
 📄 License
 
