@@ -2,14 +2,14 @@
 (function (global) {
   'use strict';
 
-  // 預設詞庫
+  // Default word list
   const defaultWordList = [
     "apple", "banana", "cat", "dog", "elephant", "fish", "grape", "hat", "ice", "jungle",
     "kite", "lion", "monkey", "nest", "orange", "pig", "queen", "rabbit", "sun", "tiger",
     "umbrella", "van", "whale", "xray", "yellow", "zebra"
   ];
 
-  // 共用預設設定
+  // Shared default configuration
   const defaultConfig = {
     wordList: defaultWordList,
     wordCount: 12,
@@ -18,6 +18,9 @@
     salt: 'quori-default',
   };
 
+  /**
+   * Generate random noise characters (used after the prefix)
+   */
   function generateRandomNoise(length = 3) {
     if (!Number.isInteger(length) || length <= 0) {
       throw new Error('RpsCore.generateRandomNoise: length must be a positive integer.');
@@ -31,12 +34,12 @@
   }
 
   /**
-   * 產生 RPS 助記詞
+   * Generate an RPS mnemonic
    * @param {Object} options
-   * @param {string[]} [options.wordList=defaultWordList] 詞庫
-   * @param {number} [options.wordCount=12] 助記詞個數
-   * @param {number} [options.prefixLength=3] 前綴長度（真實英文字取幾碼）
-   * @param {number} [options.noiseLength=3] 雜訊長度
+   * @param {string[]} [options.wordList=defaultWordList] - Source dictionary
+   * @param {number} [options.wordCount=12] - Total number of words
+   * @param {number} [options.prefixLength=3] - Prefix length taken from dictionary words
+   * @param {number} [options.noiseLength=3] - Random noise length appended after prefix
    */
   function generateRandomMnemonic(options = {}) {
     const {
@@ -70,9 +73,9 @@
   }
 
   /**
-   * 取得不重複的隨機索引
-   * @param {number} count 要抽幾個
-   * @param {number} max   總長度（例如 12）
+   * Get unique random indices
+   * @param {number} count - How many indices to pick
+   * @param {number} max - Maximum word count (e.g. 12)
    */
   function getRandomIndices(count, max) {
     if (!Number.isInteger(count) || !Number.isInteger(max) || count <= 0 || max <= 0) {
@@ -89,10 +92,10 @@
   }
 
   /**
-   * SHA-256 + salt
+   * SHA-256 hashing with optional salt
    * @param {string} text
    * @param {string} [salt='quori-default']
-   * @returns {Promise<string>} hex 字串
+   * @returns {Promise<string>} Hex string hash
    */
   async function sha256WithSalt(text, salt = defaultConfig.salt) {
     if (typeof text !== 'string') {
@@ -107,17 +110,18 @@
   }
 
   /**
-   * 驗證 RPS：
+   * Verify RPS prefixes
    * @param {Object} params
-   * @param {string} params.mnemonic  助記詞字串（空白分隔）
-   * @param {number[]} params.indices 要驗證的索引陣列（例：[1,4,9]）
-   * @param {string[]} params.inputs  對應輸入（例：["app", "mon", "sun"]）
-   * @param {number} [params.prefixLength=3] 比對前幾碼
-   * @returns {boolean} true = 通過驗證
+   * @param {string} params.mnemonic - Space-separated RPS words
+   * @param {number[]} params.indices - Challenge indices
+   * @param {string[]} params.inputs - User-entered prefixes
+   * @param {number} [params.prefixLength=3] - Number of characters to verify
+   * @returns {boolean} true if verification passes
    */
   function verifyRps({ mnemonic, indices, inputs, prefixLength = defaultConfig.prefixLength }) {
+
     if (!mnemonic || typeof mnemonic !== 'string') {
-      return false;
+      throw new Error("verifyRps: mnemonic must be an array or space-separated string.");
     }
     if (!Array.isArray(indices) || !Array.isArray(inputs)) {
       return false;
@@ -128,8 +132,20 @@
 
     const words = mnemonic.split(' ').filter(Boolean);
     if (words.length === 0) return false;
-    if (indices.length !== inputs.length) return false;
 
+    // Error if prefixLength is longer than any mnemonic word
+    for (const word of words) {
+      if (prefixLength > word.length) {
+        throw new Error("verifyRps: prefixLength is larger than word length.");
+      }
+    }
+
+    // Indices length must match inputs length
+    if (indices.length !== inputs.length) {
+      throw new Error("verifyRps: indices length does not match inputs length.");
+    }
+
+    // Prefix comparison
     return indices.every((wordIndex, idx) => {
       const expected = (words[wordIndex] || '')
         .slice(0, prefixLength)
@@ -152,7 +168,7 @@
     verifyRps,
   };
 
-  // Node / bundler
+  // Node / bundlers
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = RpsCore;
   }

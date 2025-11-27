@@ -1,0 +1,9 @@
+## v1.0.8 – Input Validation Patch
+This patch adds stricter input validation to prevent unexpected behavior.
+
+### Added
+- Error when `indices.length` does not match `inputs.length`
+- Error when `prefixLength` is greater than any mnemonic word length
+- Error when `mnemonic` is neither an Array nor a String
+
+These checks improve safety during RPS verification and reduce silent failures.
