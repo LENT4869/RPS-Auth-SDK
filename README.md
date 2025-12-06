@@ -177,16 +177,11 @@ All of them:
 - Are styled with a modern glassmorphism card  
 
 👉 Web UI: https://dumbell6.gumroad.com/l/waiqtv 
-<<<<<<< HEAD
+
 👉 React UI: https://dumbell6.gumroad.com/l/veftc  
+
 👉 Vue UI: https://dumbell6.gumroad.com/l/tlsfq  
-=======
 
-👉 React UI: https://dumbell6.gumroad.com/l/veftc  
-
-👉 Vue UI: https://dumbell6.gumroad.com/l/tlsfq 
-
->>>>>>> bd038ecbd27d2a7da173de1c10c8f9738905b8e0
 👉 **Full UI Bundle** (Web + React + Vue): https://dumbell6.gumroad.com/l/jyaxf
 
 📄 License
@@ -194,6 +189,7 @@ All of them:
 MIT License
 
 © 2025 — LENT
+
 
 
 
