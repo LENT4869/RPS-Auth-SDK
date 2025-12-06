@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <title>RPS Verify</title>
+</head>
+<body>
+  <h1>登入驗證（RPS）</h1>
+
+  <div id="prompts"></div>
+  <div id="inputs"></div>
+
+  <button id="submit">提交驗證</button>
+  <pre id="msg"></pre>
+
+  <script src="rps_core.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    const words = RpsDemo.loadMnemonic();
+    const indices = RpsDemo.getRandomIndices();
+
+    const promptsDiv = document.getElementById("prompts");
+    const inputsDiv = document.getElementById("inputs");
+
+    indices.forEach((i) => {
+      promptsDiv.innerHTML += `<div>第 ${i + 1} 個詞的前三碼：</div>`;
+      inputsDiv.innerHTML += `<input id="w${i}" placeholder="前三碼"><br>`;
+    });
+
+    document.getElementById("submit").onclick = () => {
+      const inputs = indices.map(i =>
+        document.getElementById(`w${i}`).value.trim()
+      );
+
+      const ok = RpsDemo.verifyUserInput(words, indices, inputs);
+
+      if (ok) {
+        msg.textContent = "✔ 驗證成功，正在導向 Dashboard...";
+        setTimeout(() => location.href = "dashboard.html", 800);
+      } else {
+        msg.textContent = "❌ 驗證失敗，請重新輸入。";
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <title>RPS Setup</title>
+</head>
+<body>
+  <h1>設定你的 RPS 助記詞</h1>
+
+  <button id="gen">產生 12 組助記詞</button>
+  <pre id="words"></pre>
+
+  <button id="save" style="display:none">我已抄寫完成 → 儲存並開始使用</button>
+
+  <script src="rps_core.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // ⚠ 正確抓取 DOM 元素
+    const wordsElement = document.getElementById("words");
+    const genBtn = document.getElementById("gen");
+    const saveBtn = document.getElementById("save");
+
+    genBtn.onclick = () => {
+      const words = RpsDemo.generateMnemonic();
+
+      // 存在全域變數讓 save 持續使用
+      window._words = words;
+
+      // 顯示文字
+      wordsElement.textContent = words.join(" ");
+
+      // 顯示儲存按鈕
+      saveBtn.style.display = "block";
+    };
+
+    saveBtn.onclick = () => {
+      RpsDemo.saveMnemonic(window._words);
+      location.href = "verify.html";
+    };
+  </script>
+</body>
+</html>
