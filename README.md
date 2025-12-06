@@ -1,5 +1,9 @@
 # RPS Auth SDK
 
+![npm](https://img.shields.io/npm/dm/rps-auth-sdk)
+![npm](https://img.shields.io/npm/dt/rps-auth-sdk)
+![npm](https://img.shields.io/npm/v/rps-auth-sdk)
+
 A lightweight, local-first authentication SDK based on Random Prefix Security (RPS) — a verification mechanism that asks for partial prefixes of mnemonic-like tokens, preventing full credential exposure and dramatically reducing phishing & key leakage risks.
 
 No backend required. No sensitive data stored remotely.
@@ -189,6 +193,7 @@ All of them:
 MIT License
 
 © 2025 — LENT
+
 
 
 
