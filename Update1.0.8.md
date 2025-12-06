@@ -2,8 +2,12 @@
 This patch adds stricter input validation to prevent unexpected behavior.
 
 ### Added
-new example
+
+example
+
+
 These checks improve safety during RPS verification and reduce silent failures.
+
 
 
 
