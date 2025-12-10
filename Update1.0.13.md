@@ -3,10 +3,11 @@ This patch adds stricter input validation to prevent unexpected behavior.
 
 ### Added
 
-example
+rps-cloud
 
 
 These checks improve safety during RPS verification and reduce silent failures.
+
 
 
 
